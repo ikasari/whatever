@@ -1,0 +1,257 @@
+<?php
+include 'koneksi.php';
+include 'cek_login.php';
+$username = $_SESSION['username'];
+$query = mysql_query("select * from user where username='$username'");
+while($user_login = mysql_fetch_array($query))
+{
+  $user = $user_login['username'];
+}
+?>
+<!doctype html>
+<script type="text/javascript" src="jquery/jquery.js"></script>
+<script>
+function suggest(inputString){
+	if(inputString.length == 0) {
+		$('#suggestions').fadeOut();
+	} else {
+	$('#country').addClass('load');
+		$.post("autosuggest.php", {queryString: ""+inputString+""}, function(data){
+			if(data.length >0) {
+				$('#suggestions').fadeIn();
+				$('#suggestionsList').html(data);
+				$('#country').removeClass('load');
+			}
+		});
+	}
+}
+
+function fill(thisValue) {
+	$('#nama').val(thisValue);
+	setTimeout("$('#suggestions').fadeOut();", 100);
+}
+
+function fill2(thisValue) {
+	$('#kode').val(thisValue);
+	setTimeout("$('#suggestions').fadeOut();", 100);
+}
+
+</script>
+<style>
+#result {
+	height:20px;
+	font-size:12px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#333;
+	padding:5px;
+	margin-bottom:10px;
+	background-color:#FFFF99;
+}
+#country{
+	padding:3px;
+	border:1px #CCC solid;
+	font-size:12px;
+}
+.suggestionsBox {
+	position: absolute;
+	left: 0px;
+	top:40px;
+	margin: 26px 0px 0px 0px;
+	width: 200px;
+	padding:0px;
+	background-color:#999999;
+	border-top: 3px solid #999999;
+	color: #fff;
+}
+.suggestionList {
+	margin: 0px;
+	padding: 0px;
+}
+.suggestionList ul li {
+	list-style:none;
+	margin: 0px;
+	padding: 6px;
+	border-bottom:1px dotted #666;
+	cursor: pointer;
+}
+.suggestionList ul li:hover {
+	background-color: #FC3;
+	color:#000;
+}
+ul {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#FFF;
+	padding:0;
+	margin:0;
+}
+
+.load{
+background-image:url(loader.gif);
+background-position:right;
+background-repeat:no-repeat;
+}
+
+#suggest {
+	position:relative;
+}
+</style>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Add Sales Activity</title>
+    </head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/permata-ui-kit.css" rel="stylesheet" media="screen">
+    <link href="cssmenu/menu_assets/styles.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="img/indosat.com.ico">
+
+
+<body background="img/4.png">
+    <div class="container">
+        <?php
+        $level = $_SESSION['level'];
+        switch ($level) {
+            case 'admin':
+            {?>
+            <div class="rounded_2 shadow_2" style="width:975px; margin:auto">
+            <div class="container">
+
+            <div class="page-header">
+                <div id="header">
+                    <center>
+                    <img src="img/imtwo.png" width="200px" height="57px" class="img-rounded">                    
+                    <h4>SALES ACTIVITY<small>INDOSAT MEGA MEDIA</small></h4>
+                    </center>
+                </div>
+            </div>        
+
+            <div id='cssmenu'>
+            <ul>
+                <li><a href='home.php'><span>Home</span></a></li>
+                <li class='has-sub active'><a href='#'><span>User</span></a>
+                    <ul>
+                        <li><a href='#'><span>Add User</span></a></li>
+                        <li class='last'><a href='view_user.php'><span>View User</span></a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'><span>Activity</span></a>
+                    <ul>
+                        <li><a href='add_activity.php'><span>Add Activity</span></a></li>
+                        <li class='last'><a href='view_activity.php'><span>View Activity</span></a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'><span>Package</span></a>
+                    <ul>
+                        <li><a href='add_packet.php'><span>Add Package</span></a></li>
+                        <li class='last'><a href='page_packet.php'><span>View Package</span></a></li>
+                    </ul>
+                </li>
+                <li class='last'><a href='logout.php'><i class="icon-off icon-white"></i> Log Out</a></li>
+            </ul>
+            </div>
+
+            <?php
+            break;
+            }
+
+            case 'sales':
+            {?>
+            <div class="rounded_2 shadow_2" style="width:975px; height:670px; margin:auto">
+            <div class="container">
+
+            <div class="page-header">
+                <div id="header">
+                    <center>
+                    <img src="img/imtwo.png" width="200px" height="57px" class="img-rounded">                    
+                    <h4>SALES ACTIVITY<small>INDOSAT MEGA MEDIA</small></h4>
+                    </center>
+                </div>
+            </div>        
+
+            <div id='cssmenu'>
+            <ul>
+                <li><a href='home.php'><span>Home</span></a></li>
+                <li class='has-sub'><a href='#'><span>Customer</span></a>
+                    <ul>
+                        <li><a href='add_customer.php'><span>Add Customer</span></a></li>
+                        <li class='last'><a href='view_customer.php'><span>View Customer</span></a></li>
+                    </ul>
+                </li>
+                <li class='has-sub active'><a href='#'><span>Activity</span></a>
+                    <ul>
+                        <li><a href='#'><span>Add Activity</span></a></li>
+                        <li class='last'><a href='view_sactivity.php'><span>View Activity</span></a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='ach_sales.php'><span>Achievement</span></a> 
+                    <ul>
+                        <li><a href="ach_sales.php">My Achievement</a></li>
+                        <li><a href="ach_saless.php">Achievement Sales</a></li>
+                    </ul>
+                </li>                  
+                <li class='last'><a href='logout.php'><i class="icon-off icon-white"></i> Log Out</a></li>
+            </ul>
+            </div>
+
+            <?php
+            break;
+            }            
+        }
+        ?>
+        <br/>
+        <br/>       		
+	<form method='post' action='insert_sactivity.php'>
+	<center><h4>Add Sales Activity</h4></center>
+        <br/>				
+            <table>
+            <tr>
+                <td>Sales Username</td>
+                <td>:</td>
+                <td><input type='text' name='susername' readonly="readonly" value="<?php echo $user;?>"></td>
+            </tr>
+           <tr>
+            <td>Customer Name</td>
+    		<td>:</td>
+    		<td>
+                    <div id="suggest">
+                    <input type="text" onKeyUp="suggest(this.value);" name="nama"  onBlur="fill();" id="nama" size="30" required/>
+                    <div class="suggestionsBox" id="suggestions" style="display: none;"> <img src="arrow.png" style="position: relative; top: -12px; left: 30px;" alt="" />
+                        <div class="suggestionList" id="suggestionsList"> &nbsp; </div>
+                    </div>
+                    </div>
+                </td>
+			
+            </tr>
+            <tr>
+                <td>Activity</td>
+                <td>:</td>
+                <td>
+                    <select name='activity'>
+			<option>--Choose Activity--</option>
+			<?php
+				$query = mysql_query("select * from sactivity order by id");
+                        	while($data=  mysql_fetch_array($query))
+				{
+                                    echo"<option value='".$data['activity_name']."'>".ucwords($data['activity_name'])."</option>";
+				}
+			?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input class="btn" type='submit' name='submit' value='Add'></td>
+            </tr>
+        </table>
+			</form>
+		</div>
+	</div>
+        </form>
+    </div> <!-- container -->
+    </body>
+</html>
