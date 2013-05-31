@@ -1,0 +1,55 @@
+<?php
+date_default_timezone_set('Asia/Jakarta');
+include 'koneksi.php';
+
+$susername = mysql_real_escape_string($_POST['susername']);
+$cust_name = mysql_real_escape_string($_POST['nama']);
+$activity = mysql_real_escape_string($_POST['activity']);
+$today = date('Y-m-d H:i:s');
+
+//get id_cust
+$query1 = mysql_query("select * from pelanggan where nama = '$cust_name'");
+while ($row1 = mysql_fetch_array($query1)) 
+{
+    $id_cust = $row1['id_pelanggan'];
+}
+
+//get id_user
+$query2 = mysql_query("select * from user where username = '$susername'");
+while($row2 = mysql_fetch_array($query2))
+{
+    $id_user = $row2['id_user'];
+}
+
+//get id_actvity
+$query4 = mysql_query("select * from sactivity where activity_name = '$activity'");
+while($row3 = mysql_fetch_array($query4))
+{
+    $id_activity = $row3['id'];
+    $progress = $row3['progress'];
+}
+
+if ($activity == "Deal")
+{
+$query3 = mysql_query("insert into sactivity_trans values('','$id_activity', '$id_user', '$id_cust', '$cust_name', '$today', '100')");    
+}else {
+//insert into sactivity_trans
+$query3 = mysql_query("insert into sactivity_trans values('','$id_activity', '$id_user', '$id_cust', '$cust_name', '$today', '$progress')");
+}
+if($activity == "Deal")
+{
+    //send customer name
+    //redirect halaman Work Order
+   ?> 
+        <script type="text/javascript">
+        window.location = "http://localhost/indosat2/insert_wo2.php?cust=<?php echo $cust_name;?>";
+        </script>
+<?php 
+}
+else if($query3)
+{
+    header('location:view_sactivity.php');
+} else {
+    header('location:add_sactivity.php');
+}
+?>
